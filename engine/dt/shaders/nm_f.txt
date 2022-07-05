@@ -1,0 +1,209 @@
+//#version 320 es
+precision lowp float;
+out vec4 FragColor; //output pixel color
+uniform float uAlphaFactor; //for semi-transparency
+uniform int uAlphaBlending; //for semi-transparency
+
+in vec2 vTuv2;
+uniform sampler2D uTex2nm;
+in vec3 tbnVectorToLight;
+in vec3 tbnHalfVector;
+
+#if defined(USE_TEX0)
+	uniform sampler2D uTex0;  //texture id
+	uniform sampler2D uTex3;  //translate texture id
+	uniform int uTex0translateChannelN;
+	uniform vec4 uColor1;
+	uniform vec4 uColor2;
+#else
+	uniform vec4 uColor;
+#endif
+#if defined(USE_TUV0)
+	in vec2 vTuv; //varying TUV (passed from vertex shader)
+#endif
+#if defined(OVERMASK)
+	uniform sampler2D uTex1mask;  //texture id
+	uniform int uTex1alphaChannelN;
+	uniform int uTex1alphaNegative;
+#endif
+#if defined(MIRROR)
+	in vec2 vScreenPosition01;
+	in mat3 inversedTBN;
+#endif
+uniform float uAmbient;
+uniform float uSpecularIntencity;
+uniform float uSpecularMinDot;
+uniform float uSpecularPowerOf;
+uniform float uBleach;
+
+#if defined(WITHSHADOWS)
+	in vec3 vDMcoords; //varying TUV for depth map (passed from vertex shader)
+	uniform sampler2D uTex4dm;  //depth map texture id
+	uniform float uShadow;
+#endif
+
+void main(void) {
+	vec4 tbnNormal4 = texture(uTex2nm, vTuv2);
+	float alpha = tbnNormal4.a;
+
+	if(alpha < 0.5){
+		if(uAlphaBlending > 0){
+			if(alpha == 0.0){
+				discard;
+				return;
+			}
+		}
+		else{ //no AlphaBlending
+			discard;
+			return;
+		}
+	}
+	/*
+	//black?
+	if(tbnNormal4.b < 0.3){
+		FragColor = vec4(0.0,0.0,0.0,alpha);
+		return;
+	}
+	*/
+	vec4 outColor;	
+#if defined(OVERMASK)
+	outColor = texture(uTex1mask, vTuv);
+	float alpha2 = outColor[uTex1alphaChannelN];
+	if(uTex1alphaNegative > 0)
+		alpha2 = 1.0 - alpha2;
+	if(alpha2 < 1.0){
+		alpha *= alpha2;
+		if(alpha < 0.5){
+			if(uAlphaBlending > 0){
+				if(alpha == 0.0){
+					discard;
+					return;
+				}
+			}
+			else{ //no AlphaBlending
+				discard;
+				return;
+			}
+		}
+	}
+#endif
+	vec3 vNormalNormal = normalize(vec3(tbnNormal4) * 2.0 - 1.0);
+
+#if defined(USE_TEX0)
+	#if defined(MIRROR)
+		vec3 inversedNormal = normalize(inversedTBN * vNormalNormal);
+		vec2 vTuvMirror;
+		vTuvMirror[0] =  (vScreenPosition01[0]+inversedNormal[0]*0.4)+0.5;
+		vTuvMirror[1] = -(vScreenPosition01[1]+inversedNormal[1]*0.4)+0.5;
+		outColor = texture(uTex0, vTuvMirror);
+	#else
+		outColor = texture(uTex0, vTuv);
+	#endif
+	if(uTex0translateChannelN >= 4){ //translate channel to 2-tone
+		float val = outColor[uTex0translateChannelN-4];
+		if(val <= 0.0)
+			outColor = uColor2;
+		else 
+		if(val >= 1.0)
+			outColor = uColor1;
+		else
+			outColor = uColor1*val + uColor2*(1.0-val);
+	}
+	else 
+	if(uTex0translateChannelN >= 0){ //translate channel
+		vec2 tuv3;
+		tuv3[0] = outColor[uTex0translateChannelN];
+		tuv3[1] = 0.0;
+		outColor = texture(uTex3, tuv3);
+	}
+	FragColor = outColor;
+#else
+	FragColor = uColor;
+#endif
+	if(FragColor.a != 1.0){
+		alpha *= FragColor.a;
+		if(alpha < 0.5){
+			if(uAlphaBlending > 0){
+				if(alpha == 0.0){
+					discard;
+					return;
+				}
+			}
+			else{ //no AlphaBlending
+				discard;
+				return;
+			}
+		}
+	}
+	
+#if defined(WITHSHADOWS)
+	float dmDepth = texture(uTex4dm, vDMcoords.xy).r;
+	float maxLight = 100.0;
+	if(dmDepth < vDMcoords.z){
+		//pixel is in shadow
+		maxLight = uShadow;
+		#if defined(PHONG)
+			if(maxLight < uAmbient)
+				maxLight = uAmbient;
+		#endif
+	}
+#endif
+
+	// Calculate the dot product of the light vector and vertex normal. If the normal and light vector are
+	// pointing in the same direction then it will get max illumination.
+	float dotProduct = dot(vNormalNormal, normalize(tbnVectorToLight));
+#if defined(WIRE)
+	if(dotProduct < 0.0)
+		dotProduct = -dotProduct;
+	dotProduct = 1.0 - dotProduct;
+#endif		
+	// count ambient component
+	float illumination = dotProduct + uAmbient;
+	
+	#if defined(WITHSHADOWS)
+		if(illumination > maxLight)
+			illumination = maxLight;
+	#endif
+	
+	// Multiply the color by the lightIntencity illumination level to get final output color.
+	if(illumination < 1.0){
+		if(illumination < uAmbient)
+			illumination = uAmbient;
+		FragColor *= illumination;
+	}
+	else
+	if(illumination > 1.0){ //highlight/bleach ?
+		if(uBleach > 0.0){
+			float bleach = illumination-1.0;
+			if(bleach > uBleach)
+				bleach = uBleach;
+			FragColor += bleach;
+		}
+	}
+#if defined(WITHSHADOWS)
+	if(maxLight >= 1.0)
+#endif
+	if(uSpecularIntencity>0.0){
+		//specular light
+		// INTENSITY OF THE SPECULAR LIGHT
+		// DOT PRODUCT OF NORMAL VECTOR AND THE HALF VECTOR TO THE POWER OF THE SPECULAR HARDNESS
+		float dotProduct = dot(vNormalNormal, normalize(tbnHalfVector));
+#if defined(WIRE)
+		if(dotProduct < 0.0)
+			dotProduct = -dotProduct;
+		dotProduct = 1.0 - dotProduct;
+#endif		
+		if(dotProduct>uSpecularMinDot){
+			float specularIntencity = pow(dotProduct, uSpecularPowerOf) * uSpecularIntencity;		
+			if(specularIntencity > uSpecularIntencity)
+				specularIntencity = uSpecularIntencity;
+			FragColor += specularIntencity;
+		}
+	}
+	if(uAlphaFactor != 1.0)
+		alpha *= uAlphaFactor;	
+	FragColor.a = alpha;
+
+}
+
+

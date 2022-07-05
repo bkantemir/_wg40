@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="xEngine">
+      <UniqueIdentifier>{c4d5d9fb-735e-4a19-a900-5b3b67cf0527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="xPlatform">
+      <UniqueIdentifier>{9ff04c4e-b9d8-4cba-91e3-cf5e39db6da9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="xTheGame">
+      <UniqueIdentifier>{56b3d1f8-4002-4a6f-8128-0cdb9bb6a10a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="xEngine\modeler">
+      <UniqueIdentifier>{c50e8fe6-5377-4cf1-a01d-e351f51f564f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="xTheGame\model_car">
+      <UniqueIdentifier>{1f58d321-dd74-49d6-bec3-645060f4a5e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="xEngine\ui">
+      <UniqueIdentifier>{e6626194-39fa-4a19-980f-9f74b650669f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\p_windows\glad\src\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TheGame.cpp">
+      <Filter>xTheGame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\p_windows\platform.cpp">
+      <Filter>xPlatform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\Shader.cpp">
+      <Filter>xEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\utils.cpp">
+      <Filter>xEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\Texture.cpp">
+      <Filter>xEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\MyColor.cpp">
+      <Filter>xEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\Material.cpp">
+      <Filter>xEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\DrawJob.cpp">
+      <Filter>xEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\Coords.cpp">
+      <Filter>xEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\GameSubj.cpp">
+      <Filter>xEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\modeler\ModelBuilder.cpp">
+      <Filter>xEngine\modeler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\modeler\ModelBuilder1base.cpp">
+      <Filter>xEngine\modeler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\modeler\TexCoords.cpp">
+      <Filter>xEngine\modeler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\Camera.cpp">
+      <Filter>xEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\FileLoader.cpp">
+      <Filter>xEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\XMLparser.cpp">
+      <Filter>xEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\modeler\ModelLoader.cpp">
+      <Filter>xEngine\modeler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\modeler\GroupTransform.cpp">
+      <Filter>xEngine\modeler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\modeler\PolygonRib.cpp">
+      <Filter>xEngine\modeler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\modeler\Polygon.cpp">
+      <Filter>xEngine\modeler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\modeler\MaterialAdjust.cpp">
+      <Filter>xEngine\modeler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\model_car\CarWheel.cpp">
+      <Filter>xTheGame\model_car</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\Shadows.cpp">
+      <Filter>xEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\ui\UISubj.cpp">
+      <Filter>xEngine\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\engine\ui\Coords2D.cpp">
+      <Filter>xEngine\ui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\engine\linmath.h">
+      <Filter>xEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\p_windows\platform.h">
+      <Filter>xPlatform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TheGame.h">
+      <Filter>xTheGame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\Shader.h">
+      <Filter>xEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\utils.h">
+      <Filter>xEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\Texture.h">
+      <Filter>xEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\MyColor.h">
+      <Filter>xEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\Material.h">
+      <Filter>xEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\DrawJob.h">
+      <Filter>xEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\Coords.h">
+      <Filter>xEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\GameSubj.h">
+      <Filter>xEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\modeler\Vertex01.h">
+      <Filter>xEngine\modeler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\modeler\Triangle01.h">
+      <Filter>xEngine\modeler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\modeler\Group01.h">
+      <Filter>xEngine\modeler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\modeler\VirtualShape.h">
+      <Filter>xEngine\modeler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\modeler\ModelBuilder.h">
+      <Filter>xEngine\modeler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\Camera.h">
+      <Filter>xEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\modeler\ModelBuilder1base.h">
+      <Filter>xEngine\modeler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\modeler\TexCoords.h">
+      <Filter>xEngine\modeler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\FileLoader.h">
+      <Filter>xEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\XMLparser.h">
+      <Filter>xEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\modeler\ModelLoader.h">
+      <Filter>xEngine\modeler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\modeler\GroupTransform.h">
+      <Filter>xEngine\modeler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\modeler\PolygonRib.h">
+      <Filter>xEngine\modeler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\modeler\Polygon.h">
+      <Filter>xEngine\modeler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\modeler\MaterialAdjust.h">
+      <Filter>xEngine\modeler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\model_car\CarWheel.h">
+      <Filter>xTheGame\model_car</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\Shadows.h">
+      <Filter>xEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\ui\UISubj.h">
+      <Filter>xEngine\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\engine\ui\Coords2D.h">
+      <Filter>xEngine\ui</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

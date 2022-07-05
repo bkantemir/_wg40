@@ -1,0 +1,38 @@
+//#version 320 es
+precision lowp float;
+uniform mat4 uMVP; // transform matrix (Model-View-Projection)
+uniform mat3 uMV3x3; // Model-View matrix (for calculating normals into eye space)
+out float vZ;
+layout (location = 0) in vec3 aPos; // position attribute (x,y,z)
+
+#if defined(USE_NORMALS)
+	layout (location = 3) in vec3 aNormal; // normal attribute (x,y,z)
+	out vec3 vNormal; // varying normal (to pass to fragment shader)
+#endif
+
+#if defined(USE_TUV0)
+	layout (location = 1) in vec2 aTuv; //attribute TUV (texture coordinates)
+	out vec2 vTuv; //varying TUV (pass to fragment shader)
+#endif
+#if defined(USE_NORMALMAP)
+	layout (location = 2) in vec2 aTuv2; //attribute TUV (texture coordinates)
+	out vec2 vTuv2; //varying TUV (pass to fragment shader)
+#endif
+
+void main(void) { 
+	gl_Position = uMVP * vec4(aPos, 1.0);
+	vZ = gl_Position.z;
+#if defined(USE_NORMALS)	
+	// Transform the normal's orientation into eye space. 
+	vNormal = uMV3x3 * aNormal;	
+#endif
+
+#if defined(USE_TUV0)
+	vTuv = aTuv;
+#endif
+#if defined(USE_NORMALMAP)
+	vTuv2 = aTuv2;
+#endif
+}
+
+

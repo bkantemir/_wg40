@@ -1,0 +1,72 @@
+<texture_as="tx0" src="marlboro03small.png" ckey="#00ff00"/>
+<mt_type="phong" uTex0_use="tx0" />
+<vs="box_tank" whl="53,83,21" ext=1 sectR=1 />
+<a="front v" xywh="2,1,323,495" mark="box_front"/>
+<a="back v"  xywh="2,1,323,495" mark="box_back"/>
+<a="right all" xywh="327,1,128,495" mark="box_right"/>
+<a="left all" xywh="457,1,128,495" mark="box_left"/>
+<a="top" xywh="588,1,323,133"/>
+<a="bottom" xywh="587,136,324,134"/>
+//golden prints
+<vs="box" whl="55.1,85.1,23.1" />
+<texture_as="whitenoise" src="/dt/mt/wn64_blur3.bmp"/>
+<texture_as="gold" src="/dt/mt/gold02roman.bmp" />
+<mt_type="mirror" uAlphaBlending uTex1mask_use="tx0" uTex1alphaChannelN=1 uTex0_use="whitenoise" uTex0translateChannelN=0 uTex3_use="gold" noShadow />
+//side golden prints
+<a="right" xywh="342,12,101,10" whl="x,1.8,18.1" pxyz="x,39.8, -0.3" /> //Please do not litter
+<a="right" xywh="339,144,105,89" whl="x,15.35,18.9" pxyz="x,10.3,-0.12" /> //For special offers...
+<a="left" xywh="475,15,95,48" whl="x,8.4,17" pxyz="x,36, 0.3" /> //Underage sale...
+//front prints
+<group>
+	//bottom golden print "20 class a..."
+	<a="front" xywh="20,498,289,13" whl="47.5,2,x" pxyz="1,-36,x" />
+	//blazon/emblem
+	<mt_type="mirror" uAlphaBlending uTex2nm_use="tx0" uTex0_use="whitenoise" uTex0translateChannelN=0 uTex3_use="gold" noShadow />
+	<a="front" xywh2nm="589,415,128,94" whl="20.7,16,x" pxyz="0.3,6.1,x" /> //emblem
+	//Marlboro
+	<mt_type="phong" uAlphaBlending uTex2nm_use="tx0" uColor="#1E211E" noShadow />
+	<a="front" xywh2nm="590,275,301,136" whl="49.2,23.3,x" pxyz="0.21,-18,x" /> //marlboro
+</group> 
+<clone ay=180 />
+//joint (slit) between the pack and the lid
+<group>
+	<mt_adjust uTex2nm_use="tx0" noShadow >
+		<a2mesh wh="50,1" xywh2nm="582,497,1,4" all markedAs="box_right" onThe="right" py=24.6 az=31 />
+		<a2mesh wh="50,1" xywh2nm="582,497,1,4" all markedAs="box_left"  onThe="left"  py=24.6 az=-31 />
+		<a2mesh wh="53,1" xywh2nm="582,497,1,4" all markedAs="box_front"               py=17.8 />
+		<a2mesh wh="6 ,1" xywh2nm="582,497,1,4" all markedAs="box_back"  onThe="back"  py=31.5 px=23.5 />
+		<a2mesh wh="6 ,1" xywh2nm="582,497,1,4" all markedAs="box_back"  onThe="back"  py=31.5 px=-23.5 />
+	</mt_adjust> 
+</group sizeD="0.1,0,0.1"> 
+//sealing ribbon
+<mt_type="wire" lineWidth=1.5 uColor="130,90,0" zBufferUpdate=no noShadow />
+<line>
+	<p pxyz="-27.6,16.5 ,0" />
+	<p dz=10.5 /> //left side half
+	<p dxyz="1.1,0,1.1" /> //front left rib
+	<p dx=53 /> //front side
+	<p dxyz="1.1,0,-1.1" /> //front right rib
+	<p dz=-21 /> //  right side
+	<p dxyz="-1.1,0,-1.1" /> //  back right rib
+	<p dx=-53 /> //back side
+	<p dxyz="-1.1,0,1.1" /> //back left rib
+	<p dz=16 /> //left half
+	<p dxyz="-1,0,5" /> //ribbon "tail"
+	<p dz=1 />
+</line >
+//clear-film
+<texture_as="glass" src="/dt/mt/glass01.bmp" />
+<texture_as="whitenoise2" src="/dt/mt/wn64_blur1.bmp"/>
+<vs="box_tank" whl="53,83,21" ext=1 sectR=1 />
+<group>
+	<mt_type="mirror" uAlphaFactor=0.8 uSpecularIntencity=0 uTex0_use="whitenoise2" uTex0translateChannelN=1 uTex3_use="glass" noShadow />
+		<a="front h,back h,right,left" />
+	<mt_type="mirror" uAlphaFactor=0.8 uSpecularIntencity=0 uTex0_use="whitenoise2" uTex0translateChannelN=1 uTex3_use="glass" uTex2nm_use="tx0" noShadow />
+		<a="top all" xywh2nm="724,420,223,90"/>
+		<a="bottom all" xywh2nm="724,420,223,90" mark="film_bottom"/>
+</group sizeD="0.2,0.1,0.2" >
+//Excise stamp
+<mt_type="phong" uTex0_use="tx0" noShadow />
+	<a2mesh wh="22,13" xywh="916,3,100,57" flip=180 all markedAs="film_bottom" onThe="bottom" pxyz="-15,4,0" az=-5 detachBy=0.05 />
+
+

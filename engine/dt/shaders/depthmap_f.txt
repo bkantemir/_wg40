@@ -1,0 +1,107 @@
+//#version 320 es
+precision lowp float;
+out float FragColor; //output pixel color
+in float vZ;
+
+uniform float uAlphaFactor; //for semi-transparency
+uniform int uDiscardNormalsOut; //for tips
+
+#if defined(USE_NORMALS)
+	in vec3 vNormal; //normal passed from rasterizer
+	uniform mat4 uDepthBias;
+#endif
+
+#if defined(USE_TEX0)
+	uniform sampler2D uTex0;  //texture id
+	uniform sampler2D uTex3;  //translate texture id
+	uniform int uTex0translateChannelN;
+#else
+	uniform vec4 uColor;
+#endif
+#if defined(USE_TUV0)
+	in vec2 vTuv; //varying TUV (passed from vertex shader)
+#endif
+#if defined(USE_NORMALMAP)
+	in vec2 vTuv2; //varying TUV (passed from vertex shader)
+	uniform sampler2D uTex2nm;  //texture id
+#endif
+#if defined(OVERMASK)
+	uniform sampler2D uTex1mask;  //texture id
+	uniform int uTex1alphaChannelN;
+	uniform int uTex1alphaNegative;
+#endif
+
+void main(void) {
+	vec4 outColor = vec4(1.0,1.0,1.0,1.0);
+	float alpha = 1.0;
+	
+#if defined(USE_NORMALMAP)
+	outColor = texture(uTex2nm, vTuv2);
+	alpha = outColor.a;
+	if(alpha < 0.5){
+		discard;
+		return;
+	}
+#endif
+
+#if defined(OVERMASK)
+	outColor = texture(uTex1mask, vTuv);
+	alpha = outColor[uTex1alphaChannelN];
+	if(uTex1alphaNegative > 0)
+		alpha = 1.0 - alpha;
+	if(alpha < 0.5){
+		discard;
+		return;
+	}
+#endif
+#if defined(USE_TEX0)
+	#if defined(USE_TUV0)
+		outColor = texture(uTex0, vTuv);
+		if(uTex0translateChannelN >= 0 && uTex0translateChannelN < 4){ //translate channel
+			vec2 tuv3;
+			tuv3[0] = outColor[uTex0translateChannelN];
+			tuv3[1] = 0.0;
+			outColor = texture(uTex3, tuv3);
+		}
+	#else
+		outColor = vec4(1.0,0.0,0.0,1.0);
+	#endif
+#else
+	outColor = uColor;
+#endif
+	if(outColor.a != 1.0){
+		alpha *= outColor.a;
+		if(alpha < 0.5){
+			discard;
+			return;
+		}
+	}
+	alpha = alpha * uAlphaFactor;
+	if(alpha < 0.5){
+		discard;
+		return;
+	}
+
+	float z = vZ;
+	
+#if defined(USE_NORMALS)
+	vec3 vNormalNormal = normalize(vNormal);
+	//z = z + vNormalNormal[1] * 0.00001 + 0.01;
+	
+	int i = int(floor(abs(vNormalNormal.z) * 17.0)) - 1;
+	if(i < 0){
+		i=0;
+		//discard;
+		//return;
+	}	
+	if(i > 15)
+		i=15;
+	z += uDepthBias[0][i];
+	
+#endif
+
+	FragColor = z;
+
+}
+
+

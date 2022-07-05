@@ -1,0 +1,53 @@
+
+<number_as="sectR" val=24 />
+
+<mt_type="wire" mt_name="chrome-wire" lineWidth=0.2 uColor="#666666" uAmbient=0.3 uSpecularPowerOf=10 uSpecularMinDot=0.85 uSpecularIntencity=1 />
+<group>
+	//rim
+	<texture_as="whitenoise" src="/dt/mt/wn64_blur3.bmp"/>
+	<texture_as="chrome" src="/dt/mt/chrome01.bmp" />
+	<texture_as="rim" src="rim01.bmp" ckey="#00ff00" />
+	<mt_type="mirror" uTex0_use="whitenoise" uTex0translateChannelN=0 uTex3_use="chrome" uTex2nm_use="rim" />
+	<group>
+		<vs="cylinder" whl="7,7,3" sectR_use="sectR" /> 
+		<a="wrap" xywh2nm="0,0,1,8" sectZ=2 side=inner />
+		<do scaleTo="6,6,x" fromZ=-0.5 toZ=0.5 />
+	</group>
+	//center
+	<group>
+		<vs="cylinder" whl="3,3,4" sectR=8 /> 
+		<a="wrap" sectZ=2 />
+		<a="front wrap" xywh2nm="1,0,1,4" />
+		<do scaleTo="4,4,x" applyTo="back only" />
+		<do scaleTo="2.5,2.5,x" fromZ=-0.5 toZ=0.5 />
+	</group>
+	<do="calculate normals" />
+	<do="normalsTo" xyz="0,0,10" fromZ=0.9 fromRZ=3.4 toRZ=3.6 />
+	<do="merge normals" />
+	//spokes
+	<mt_use="chrome-wire" lineWidth=0.25 />
+	<line>
+		<ring whl="7.3,7.3,3.3" sectR_use="sectR" />
+	</line>
+	<group>
+		<group>
+			<group>
+				<group>
+					<group>
+						<short p0="-1.5,0,1.3" p1="-0.6,3.1,0" />
+					</group>
+					<clone="reflect" xyz="1,0,0" />
+				</group>
+				<clone az=180 />
+			</group>
+			<clone az=90 />
+		</group>
+		<clone az=45 />
+	</group>
+	<clone="reflect" xyz="0,0,1" az=11.25 />
+
+	//cap logo
+	<vs="box" whl="1.5,0.9,4.1" />
+	<mt_type="phong" uTex1mask_use="rim" uTex0translateChannelN=0 uColor="#880000" noShadow />
+	<a="front" xywh="3,0,5,3" />
+</group>

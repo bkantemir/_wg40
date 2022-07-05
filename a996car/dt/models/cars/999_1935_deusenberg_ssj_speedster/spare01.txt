@@ -1,0 +1,42 @@
+//wheel
+
+<number_as="sectR" val=24 />
+
+<color_as="ivory" uColor="#c0bbaa" scope=app />
+<mt_type=phong mt_name=leather uColor="#880011" uAmbient=0.4 uSpecularIntencity=0.85 uSpecularMinDot=0.75 uSpecularPowerOf=16 /> //leather
+<mt_type="wire" mt_name="chrome-wire" lineWidth=0.4 uColor="#666666" uAmbient=0.3 uSpecularPowerOf=10 uSpecularMinDot=0.85 uSpecularIntencity=1 />
+
+<texture_as="whitenoise" src="/dt/mt/wn64_blur3.bmp"/>
+<texture_as="chrome" src="/dt/mt/chrome01.bmp" />
+<mt_type="mirror" mt_name="chrome" uTex0_use="whitenoise" uTex0translateChannelN=0 uTex3_use="chrome" uSpecularIntencity = 1f; /> //chrome
+
+
+<mt_use=leather uAmbient=0.5 uSpecularIntencity=0.6 uColor_use="ivory" />
+//<mt_use=chrome />
+
+<group>
+	//tire lid
+	<vs="cylinder" whl="10,10,3" sectR_use="sectR" />
+	<a="wrap" xywh2nm_GL="0,0,1,40" flip2nm=90 sectZ=3 />
+	<do scale="1.2,1.2,2" fromZ=-1.1 toZ=1.1 />
+	//wall
+	<group>
+		<a="wrap" />
+		<do scaleTo="7,7,x" fromZ=0 />
+	</group scale="1,1,0" pz=1.5 >
+	<clone ay=180 />
+
+	<do="calculate normals" />
+	<do="normalsTo" xyz="0,0,10" fromZ=0.9 fromRZ=3.4 toRZ=3.6 />
+	<do="merge normals" />
+	
+	<mt_use="chrome-wire" noShadow />
+	<line>
+		<ring whl="12.1,12.1,0" sectR_use="sectR" />
+	</line>
+	
+	
+	<include="rim01.txt" />
+
+</group >
+
